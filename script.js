@@ -28,7 +28,9 @@ var boardGame = (() => {
 			})
 		});
 	};
-	
+	var gameChecker = () => {
+		
+	}
 	
 	
 	render();	
