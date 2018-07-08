@@ -7,8 +7,11 @@ var boardGame = (() => {
 	};
 	var render = () => {
 		var gameBoard = document.getElementById('gameBoard');
+		gameBoard.innerHTML = '';
 		for(let i = 0; i < 9; i++) {
 			var block = document.createElement('div');
+			block.innerHTML += gameArray[i];
+
 			block.style.backgroundColor = '#d6d6d6';
 			gameBoard.appendChild(block);
 		}
@@ -32,8 +35,8 @@ var boardGame = (() => {
 		
 	}
 	
-	
+	clear();
 	render();	
-	return {render}
+	return {render, markBoard}
 })();
 
