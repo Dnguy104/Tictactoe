@@ -11,8 +11,12 @@ var boardGame = (() => {
 		for(let i = 0; i < 9; i++) {
 			var block = document.createElement('div');
 			block.innerHTML += gameArray[i];
-
 			block.style.backgroundColor = '#d6d6d6';
+			block.style.display = 'flex';
+			block.style.justifyContent = "center";
+			block.style.alignItems = "center";
+			block.style.fontSize = "100px";
+			
 			gameBoard.appendChild(block);
 		}
 	};
