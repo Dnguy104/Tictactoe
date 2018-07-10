@@ -1,46 +1,60 @@
-var boardGame = (() => {
-	var gameArray = [];
-	var clear = () => {
-		for(let i = 0; i < 9; i++) {
-			gameArray.push('');
-		}	
+"use strict";
+//module for rendering board
+const boardGame = (() => {
+	let gameArray = ['','','','','','','','',''];
+	const clear = () => {
+		gameArray = ['','','','','','','','',''];
 	};
-	var render = () => {
+	const render = () => {
 		var gameBoard = document.getElementById('gameBoard');
 		gameBoard.innerHTML = '';
 		for(let i = 0; i < 9; i++) {
-			var block = document.createElement('div');
-			block.innerHTML += gameArray[i];
-			block.style.backgroundColor = '#d6d6d6';
-			block.style.display = 'flex';
-			block.style.justifyContent = "center";
-			block.style.alignItems = "center";
-			block.style.fontSize = "100px";
-			
-			gameBoard.appendChild(block);
+			gameBoard.innerHTML += `<div id='${i.toString()}'>${gameArray[i]}</div>`;
 		}
+		initButtons();
+		
 	};
-	var markBoard = (position, player) => {
+	
+	const markBoard = (position, player) => {
 		gameArray[position] = player;
 		render();
 	};
-	var initButtons = (player) => {
+	
+	const initButtons = (player) => {
 		var gameBoard = document.getElementById('gameBoard');
 		var children = gameBoard.childNodes;
 		children.forEach((x) => {
 			x.addEventListener('click', (event) => {
-				if(gameArray(event.target.id) == '') {
-					this.markBoard(event.target.id, player);
+				let num = event.target.id;
+				if(gameArray[num] == '') {
+					markBoard(num, player);
 				}	
 			})
 		});
 	};
-	var gameChecker = () => {
-		
-	}
 	
-	clear();
-	render();	
-	return {render, markBoard}
+	return {render, markBoard, clear}
 })();
+boardGame.render();
+
+// factory for constructing players
+const Player = (name, mark) => {
+	let markedSpots = [];
+	
+	const markSpot = (spot) => {
+		markedSpots.push(spot);	
+	};
+	
+	const clearSpots = () => {
+		markedSpots = [];
+	};
+	
+	return {name, mark, markedSpots, markSpot, clearSpots};
+};
+
+let player1 = Player('player1', 'X');
+let player2 = Player('player2', 'O');
+
+
+
 

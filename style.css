@@ -11,3 +11,11 @@
 h1{
 	text-align: center;
 }
+
+#gameBoard > div {
+	background-color: #d6d6d6;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size; 90px;
+}
