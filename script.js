@@ -6,11 +6,12 @@ const boardGame = (() => {
 		gameArray = ['','','','','','','','',''];
 	};
 	const render = (player) => {
-		var gameBoard = document.getElementById('gameBoard');
+		let gameBoard = document.getElementById('gameBoard');
 		gameBoard.innerHTML = '';
 		for(let i = 0; i < 9; i++) {
 			gameBoard.innerHTML += `<div id='${i.toString()}'>${gameArray[i]}</div>`;
-		}		
+		}
+		highlightEmptyBlocks();		
 	};
 	
 	const markBoard = (position, mark) => {
@@ -22,7 +23,22 @@ const boardGame = (() => {
 
 	};
 	
-	return {render, markBoard, clear}
+	const highlightEmptyBlocks = () => {
+		let blocks = document.getElementById('gameBoard').childNodes;
+		
+		for(let i = 0; i < 9; i++) {
+			if(gameArray[i] == '') {
+				blocks[i].onmouseover = () => {
+					blocks[i].style.backgroundColor = '#87dfff';
+				};
+				blocks[i].onmouseout = () => {
+					blocks[i].style.backgroundColor = '#d6d6d6';
+				};
+			}
+		}
+	};
+	
+	return {render, highlightEmptyBlocks, markBoard, clear}
 })();
 
 
@@ -55,34 +71,60 @@ const gameLogic = (() => {
 	let winningMarks = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 	
 	const initButtons = () => {
+		//Print the current player to the screen
+		//debugger;
+		let currentPlayerPrint = document.querySelector('h2');
+		currentPlayerPrint.innerHTML = currentPlayer.name;
+		
 		var gameBoard = document.getElementById('gameBoard');
 		var children = gameBoard.childNodes;
 		children.forEach((x) => {
 			x.addEventListener('click', (event) => {
 				let num = event.target.id;
 				if(boardGame.markBoard(num, currentPlayer.mark)) {
+					currentPlayer.markSpot(num);
 					gameTurn();
 				}	
 			})
 		});
+		
 	};
 	
 	const startGame = () => {
 		boardGame.render(currentPlayer.mark);
+		initButtons();
+	};
+	
+	const winCheck = () => {
+		winningMarks.forEach((x) => {
+			if(x.diff(currentPlayer.markedSpots) == []) return true;
+		});
+		
+		return false;
+	};
+	
+	const displayWinner = () => {
+		
 	};
 	
 	const gameTurn = () => {
-		console.log(currentPlayer.mark);
-		boardGame.render(currentPlayer.mark);
-		initButtons();
 		if(currentPlayer == player1) currentPlayer = player2;
 		else currentPlayer = player1;
+		
+		if(winCheck()) {
+			displayWinner();
+			return;
+		}
+		
+		boardGame.render(currentPlayer.mark);
+		initButtons();
 	};
 	
-	return {startGame, initButtons};
+	return {startGame};
 })();
+
 gameLogic.startGame();
-gameLogic.initButtons();
+
 
 
 
