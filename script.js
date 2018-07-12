@@ -79,6 +79,7 @@ let player2 = new Player('Player 2', 'O');
 // module for game logic
 const gameLogic = (() => {
 	let currentPlayer = player1;
+	let score = [0, 0];
 	let move = 1;
 	let winningMarks = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 	
@@ -114,7 +115,13 @@ const gameLogic = (() => {
 		
 	};
 	
+	const updateScore = () => {
+		let temp = `<h3>${player1.name}: &nbsp;${score[0]}</h3><h3>${player2.name}: &nbsp;${score[1]}</h3>`
+		document.getElementById('scoreBoard').innerHTML =  temp;
+	};
+	
 	const startScreen = () => {
+		score = [0, 0];
 		document.getElementById('game').style.display = 'none';
 		document.getElementById('playerInput').style.display = 'block';
 	};
@@ -142,6 +149,7 @@ const gameLogic = (() => {
 		document.querySelector('h2').style.display = 'block';
 		document.getElementById('playAgain').style.display = 'none';
 		initButtons();
+		updateScore();
 	};
 	
 	const winCheck = () => {
@@ -158,8 +166,11 @@ const gameLogic = (() => {
 	
 	const displayWinner = () => {
 		boardGame.render(currentPlayer.mark);
-		document.querySelector('h1').innerHTML = currentPlayer.name + ' Wins!';
+		if(currentPlayer == player1) score[0]++;
+		else score[1]++;
+		updateScore();
 		
+		document.querySelector('h1').innerHTML = currentPlayer.name + ' Wins!';
 		document.querySelector('h2').style.display = 'none';
 		document.getElementById('playAgain').style.display = 'block';
 		
@@ -190,6 +201,7 @@ const gameLogic = (() => {
 		
 		boardGame.render(currentPlayer.mark);
 		initButtons();
+		updateScore();
 	};
 	
 	return {startGame, reset, startScreen, setNames};

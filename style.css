@@ -64,6 +64,11 @@ h2{
 	margin: 20px;
 }
 
+h3 {
+	color: white;
+	font-size: 30px;
+}
+
 
 
 html, body {
@@ -102,4 +107,10 @@ html, body {
 
 #exit:focus {
 	outline: none;
+}
+
+#scoreBoard {
+	position: absolute;
+	top: 50%;
+	left: 10%;
 }
