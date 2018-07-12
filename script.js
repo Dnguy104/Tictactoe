@@ -43,25 +43,33 @@ const boardGame = (() => {
 })();
 
 
-// factory for constructing players
-const Player = (name, mark) => {
-	let markedSpots = [];
-	
-	const markSpot = (spot) => {
-		markedSpots.push(spot);	
-	};
-	
-	const clearSpots = () => {
-		markedSpots.splice(0, markedSpots.length);
-	};
-	
-	return {name, mark, markedSpots, markSpot, clearSpots};
+// class for constructing players
+class Player {
+
+  constructor(name, mark) {
+    
+    this.markedSpots = [];
+    this.mark = mark;
+    this.name = name;
+    
+    return this;
+  
+  }
+    
+  markSpot(spot) {
+    this.markedSpots.push(spot); 
+  };
+
+  clearSpots() {
+    this.markedSpots = [];
+  };
+  
 };
 
 
 //declaring the two player objects
-let player1 = Player('Player 1', 'X');
-let player2 = Player('Player 2', 'O');
+let player1 = new Player('Player 1', 'X');
+let player2 = new Player('Player 2', 'O');
 
 
 // module for game logic
