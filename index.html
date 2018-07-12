@@ -5,17 +5,30 @@
 	<head>
 		<link rel="stylesheet" href="style.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   		
 	</head>
 
 	<body>
-		<h1>Tic-Tac-Toe!</h1>
-		<div id="contain">
-			<div id="gameBoard"></div>
+		<div>
+			<button id="exit" onclick="gameLogic.startScreen()"><i class="fas fa-times"></i></button>
 		</div>
-		<h2></h2>
-		<button type="button" class="btn btn-default" id="playAgain" onclick="gameLogic.reset()">Play Again</button>
-		
+		<h1>Tic-Tac-Toe!</h1> 
+		<div id="playerInput">
+			<input type="text" id="p1" placeholder="Player 1"/>
+			<input type="text" id="p2" placeholder="Player 2" />
+			<br>
+			<div id="startButtonContainer">
+				<button type="button" id="startButton" onclick="gameLogic.setNames()">Start</button>
+			</div>
+		</div>
+		<div id="game">
+			<div id="contain">
+				<div id="gameBoard"></div>
+			</div>
+			<h2></h2>
+			<button type="button" id="playAgain" onclick="gameLogic.reset()">Play Again</button>
+		</div>
 		<script src="script.js"></script>
 	</body>
 

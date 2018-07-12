@@ -1,3 +1,38 @@
+#game {
+	display: block;
+}
+
+#startButton {
+	height: 40px;
+	width: 150px;
+	font-size: 14pt;
+	
+}
+
+#startButtonContainer {
+	padding: 100px;
+	
+}
+
+input {
+	display: inline;
+	height: 60px;
+	width: 300px;
+	font-size:20pt;
+	padding-left: 10px;
+    margin : 0 30px;
+    background-color: #e8e8e8;
+}
+
+input:focus {
+	outline: none;
+}
+
+#playerInput {
+	text-align: center;
+	padding-top: 50px; 
+}
+
 #gameBoard {
 	position: relative;
 	display: grid;
@@ -56,4 +91,15 @@ html, body {
 	height: 30px;
 	width: 100px;
 	
+}
+
+#exit {
+	font-size: 50px;
+	color:white;
+	background-color: #333333;
+	border: none;
+}
+
+#exit:focus {
+	outline: none;
 }

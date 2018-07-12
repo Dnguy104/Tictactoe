@@ -64,6 +64,10 @@ class Player {
     this.markedSpots = [];
   };
   
+  changeName(name) {
+  	this.name = name;
+  };
+  
 };
 
 
@@ -110,7 +114,30 @@ const gameLogic = (() => {
 		
 	};
 	
+	const startScreen = () => {
+		document.getElementById('game').style.display = 'none';
+		document.getElementById('playerInput').style.display = 'block';
+	};
+	
+	const setNames = () => {
+		if(document.getElementById('p1').value != '') {
+			player1.changeName(document.getElementById('p1').value);
+		}
+		else {
+			player1.changeName('Player 1');
+		}
+		if(document.getElementById('p2').value != '') {
+			player2.changeName(document.getElementById('p2').value);
+		}
+		else {
+			player2.changeName('Player 2');
+		}
+		startGame();
+	};
+	
 	const startGame = () => {
+		document.getElementById('game').style.display = 'block';
+		document.getElementById('playerInput').style.display = 'none';
 		boardGame.render(currentPlayer.mark);
 		document.querySelector('h2').style.display = 'block';
 		document.getElementById('playAgain').style.display = 'none';
@@ -165,10 +192,10 @@ const gameLogic = (() => {
 		initButtons();
 	};
 	
-	return {startGame, reset};
+	return {startGame, reset, startScreen, setNames};
 })();
 
-gameLogic.startGame();
+gameLogic.startScreen();
 
 
 
