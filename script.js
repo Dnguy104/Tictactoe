@@ -2,16 +2,17 @@
 //module for rendering board
 const boardGame = (() => {
 	let gameArray = ['','','','','','','','',''];
+	
 	const clear = () => {
 		gameArray = ['','','','','','','','',''];
 	};
+	
 	const render = (player) => {
 		let gameBoard = document.getElementById('gameBoard');
 		gameBoard.innerHTML = '';
 		for(let i = 0; i < 9; i++) {
-			gameBoard.innerHTML += `<div id='${i.toString()}'>${gameArray[i]}</div>`;
-		}
-		highlightEmptyBlocks();		
+			gameBoard.innerHTML += `<div id='${i.toString()}'><div id='mark'>${gameArray[i]}</div></div>`;
+		}		
 	};
 	
 	const markBoard = (position, mark) => {
@@ -51,7 +52,7 @@ const Player = (name, mark) => {
 	};
 	
 	const clearSpots = () => {
-		markedSpots = [];
+		markedSpots.splice(0, markedSpots.length);
 	};
 	
 	return {name, mark, markedSpots, markSpot, clearSpots};
@@ -59,16 +60,25 @@ const Player = (name, mark) => {
 
 
 //declaring the two player objects
-let player1 = Player('player1', 'X');
-let player2 = Player('player2', 'O');
+let player1 = Player('Player 1', 'X');
+let player2 = Player('Player 2', 'O');
 
 
 // module for game logic
 const gameLogic = (() => {
 	let currentPlayer = player1;
-	let moves = 1;
-	let gameWon = false;
+	let move = 1;
 	let winningMarks = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+	
+	const reset = () => {
+		document.querySelector('h1').innerHTML = 'Tic-Tac-Toe!';
+		boardGame.clear();
+		player1.clearSpots();
+		player2.clearSpots();
+		currentPlayer = player1;
+		move = 1;
+		startGame();
+	};
 	
 	const initButtons = () => {
 		//Print the current player to the screen
@@ -82,45 +92,72 @@ const gameLogic = (() => {
 			x.addEventListener('click', (event) => {
 				let num = event.target.id;
 				if(boardGame.markBoard(num, currentPlayer.mark)) {
-					currentPlayer.markSpot(num);
+					currentPlayer.markSpot(parseInt(num));
 					gameTurn();
 				}	
 			})
 		});
 		
+		boardGame.highlightEmptyBlocks();
+		
 	};
 	
 	const startGame = () => {
 		boardGame.render(currentPlayer.mark);
+		document.querySelector('h2').style.display = 'block';
+		document.getElementById('playAgain').style.display = 'none';
 		initButtons();
 	};
 	
 	const winCheck = () => {
+		let ret = false;
 		winningMarks.forEach((x) => {
-			if(x.diff(currentPlayer.markedSpots) == []) return true;
+			let num = x.filter(y => {return currentPlayer.markedSpots.includes(y);});
+			if(num.length == x.length) {
+				ret = true;
+			}
 		});
 		
-		return false;
+		return ret;
 	};
 	
 	const displayWinner = () => {
+		boardGame.render(currentPlayer.mark);
+		document.querySelector('h1').innerHTML = currentPlayer.name + ' Wins!';
+		
+		document.querySelector('h2').style.display = 'none';
+		document.getElementById('playAgain').style.display = 'block';
 		
 	};
 	
+	const displayDraw = () => {
+		boardGame.render(currentPlayer.mark);
+		document.querySelector('h1').innerHTML = ' Draw!';
+		
+		document.querySelector('h2').style.display = 'none';
+		document.getElementById('playAgain').style.display = 'block';
+	};
+	
 	const gameTurn = () => {
-		if(currentPlayer == player1) currentPlayer = player2;
-		else currentPlayer = player1;
 		
 		if(winCheck()) {
 			displayWinner();
-			return;
+			return true;
 		}
+		if(move == 9) {
+			displayDraw();
+			return true;
+		}
+		
+		move++;
+		if(currentPlayer == player1) currentPlayer = player2;
+		else currentPlayer = player1;
 		
 		boardGame.render(currentPlayer.mark);
 		initButtons();
 	};
 	
-	return {startGame};
+	return {startGame, reset};
 })();
 
 gameLogic.startGame();
